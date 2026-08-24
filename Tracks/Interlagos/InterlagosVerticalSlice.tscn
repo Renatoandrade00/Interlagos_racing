@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=28 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
@@ -14,6 +14,8 @@
 [ext_resource type="PackedScene" path="res://UI/MinimapOverlay.tscn" id="11_minimap"]
 [ext_resource type="PackedScene" path="res://UI/RaceResultsScreen.tscn" id="12_results"]
 [ext_resource type="PackedScene" path="res://UI/CountdownController.tscn" id="13_countdown"]
+[ext_resource type="PackedScene" path="res://Tracks/GrandStand.tscn" id="14_stand"]
+[ext_resource type="PackedScene" path="res://Tracks/PitBuilding.tscn" id="15_pit"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.38, 0.65, 0.98, 1)
@@ -100,6 +102,17 @@ mesh = SubResource("BoxMesh_senna_s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TrackSennaS_Downhill"]
 shape = SubResource("BoxShape3D_senna_s")
+
+[node name="Structures" type="Node3D" parent="."]
+
+[node name="PitBuilding" parent="Structures" instance=ExtResource("15_pit")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 0, -110)
+
+[node name="GrandStand_Main" parent="Structures" instance=ExtResource("14_stand")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -110)
+
+[node name="GrandStand_Senna" parent="Structures" instance=ExtResource("14_stand")]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -35, -3, 200)
 
 [node name="Curbs" type="Node3D" parent="."]
 

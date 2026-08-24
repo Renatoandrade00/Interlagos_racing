@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pit_wall"]
+albedo_color = Color(0.72, 0.74, 0.76, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_building"]
+material = SubResource("StandardMaterial3D_pit_wall")
+size = Vector3(12, 5.0, 70)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_garage_door"]
+albedo_color = Color(0.12, 0.14, 0.18, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_doors"]
+material = SubResource("StandardMaterial3D_garage_door")
+size = Vector3(0.4, 3.2, 65)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tower"]
+albedo_color = Color(0.2, 0.22, 0.25, 1)
+roughness = 0.5
+
+[sub_resource type="BoxMesh" id="BoxMesh_tower"]
+material = SubResource("StandardMaterial3D_tower")
+size = Vector3(8, 14.0, 8)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pit"]
+size = Vector3(12, 6.0, 70)
+
+[node name="PitBuilding" type="StaticBody3D"]
+
+[node name="BuildingMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+mesh = SubResource("BoxMesh_building")
+
+[node name="DoorsMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9, 1.6, 0)
+mesh = SubResource("BoxMesh_doors")
+
+[node name="ControlTowerMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.0, -28)
+mesh = SubResource("BoxMesh_tower")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0)
+shape = SubResource("BoxShape3D_pit")
