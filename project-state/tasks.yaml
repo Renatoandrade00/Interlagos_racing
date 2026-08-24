@@ -1,0 +1,95 @@
+tasks:
+  - id: ARCH-001
+    title: Definir arquitetura de pastas e padrões
+    priority: P0
+    status: APPROVED
+    agent: architect
+    dependencies: []
+    acceptance_criteria:
+      - Estrutura de pastas criada
+      - Documento de arquitetura estabelecido
+
+  - id: ARCH-002
+    title: Inicializar repositório Git e branches
+    priority: P0
+    status: APPROVED
+    agent: build_release
+    dependencies: []
+    acceptance_criteria:
+      - Repositório git inicializado com branch principal
+
+  - id: ARCH-003
+    title: Configurar projeto Godot 4.x (Compatibility Renderer)
+    priority: P0
+    status: APPROVED
+    agent: architect
+    dependencies: [ARCH-001]
+    acceptance_criteria:
+      - Arquivo project.godot configurado para Compatibility e 720p
+
+  - id: ARCH-004
+    title: Criar sistema de build automatizada
+    priority: P1
+    status: BACKLOG
+    agent: build_release
+    dependencies: [ARCH-003]
+
+  - id: ARCH-005
+    title: Criar sistema de tarefas e estados
+    priority: P0
+    status: APPROVED
+    agent: orchestrator
+    dependencies: []
+
+  - id: ARCH-006
+    title: Configurar QA Agent e sistema de pontuação
+    priority: P0
+    status: APPROVED
+    agent: qa
+    dependencies: []
+    acceptance_criteria:
+      - Script de validação de critérios e pontuação >= 8.5 funcional
+
+  - id: ARCH-007
+    title: Criar ferramenta de benchmark automatizado
+    priority: P1
+    status: BACKLOG
+    agent: graphics_optimization
+    dependencies: [ARCH-003]
+
+  - id: CAR-001
+    title: Veículo Protótipo RWD com dados desacoplados
+    priority: P0
+    status: APPROVED
+    agent: vehicle_physics
+    dependencies: [ARCH-003]
+    acceptance_criteria:
+      - Cena VehiclePrototype.tscn com VehicleBody3D e 4 rodas
+      - Recurso de dados car_proto_rwd.tres desacoplado
+
+  - id: TRK-001
+    title: Trecho Vertical Slice de Interlagos (Reta + S do Senna)
+    priority: P0
+    status: APPROVED
+    agent: track
+    dependencies: [ARCH-003]
+    acceptance_criteria:
+      - Pista com asfalto, colisão e declive na Curva do Senna
+
+  - id: CAM-001
+    title: Chase Camera dinâmica com FOV suave
+    priority: P0
+    status: APPROVED
+    agent: gameplay
+    dependencies: [CAR-001]
+    acceptance_criteria:
+      - Câmera em terceira pessoa com interpolação e velocidade
+
+  - id: HUD-001
+    title: Racing HUD com Velocímetro, RPM, Marcha e Cronômetro
+    priority: P0
+    status: APPROVED
+    agent: ui_ux
+    dependencies: [CAR-001]
+    acceptance_criteria:
+      - Mostradores atualizados em tempo real conforme telemetria

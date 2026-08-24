@@ -1,0 +1,17 @@
+# Godot 4.x .gitignore
+.godot/
+*.translation
+*.import
+
+# Mono/C# (se for utilizado futuramente)
+.mono/
+[Bb]in/
+[Oo]bj/
+
+# OS / Editor temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.log
+.vscode/
+.idea/
