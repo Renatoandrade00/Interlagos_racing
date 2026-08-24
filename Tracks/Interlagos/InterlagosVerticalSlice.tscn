@@ -1,9 +1,10 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=29 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehicleRivalAI.tscn" id="2_rival"]
 [ext_resource type="Script" path="res://Core/ChaseCamera.gd" id="3_cam"]
+[ext_resource type="Script" path="res://Core/CameraManager.gd" id="3_cam_mgr"]
 [ext_resource type="PackedScene" path="res://UI/RacingHUD.tscn" id="4_hud"]
 [ext_resource type="Script" path="res://AI/AIDriverController.gd" id="5_ai"]
 [ext_resource type="Script" path="res://Race/LapCheckpointsManager.gd" id="6_laps"]
@@ -170,6 +171,9 @@ target_speed_kmh = 135.0
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, -150)
 current = true
 script = ExtResource("3_cam")
+
+[node name="CameraManager" type="Node" parent="."]
+script = ExtResource("3_cam_mgr")
 
 [node name="RacingHUD" parent="." instance=ExtResource("4_hud")]
 

@@ -4,6 +4,7 @@ class_name InterlagosSlice
 @onready var player_car: VehicleBase = $VehiclePrototype
 @onready var rival_car: VehicleBase = $VehicleRivalAI
 @onready var chase_camera: ChaseCamera = $ChaseCamera
+@onready var camera_manager: CameraManager = $CameraManager
 @onready var hud: RacingHUD = $RacingHUD
 @onready var lap_manager: LapCheckpointsManager = $LapManager
 @onready var telemetry_overlay: TelemetryOverlay = $TelemetryOverlay
@@ -26,6 +27,9 @@ func _ready() -> void:
 	
 	if chase_camera and player_car:
 		chase_camera.target_node = player_car
+	if camera_manager and chase_camera and player_car:
+		camera_manager.chase_camera = chase_camera
+		camera_manager.target_vehicle = player_car
 	if hud and player_car:
 		hud.vehicle = player_car
 	if telemetry_overlay and player_car:
