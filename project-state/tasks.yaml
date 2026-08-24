@@ -30,7 +30,7 @@ tasks:
   - id: ARCH-004
     title: Criar sistema de build automatizada
     priority: P1
-    status: BACKLOG
+    status: READY
     agent: build_release
     dependencies: [ARCH-003]
 
@@ -53,9 +53,11 @@ tasks:
   - id: ARCH-007
     title: Criar ferramenta de benchmark automatizado
     priority: P1
-    status: BACKLOG
+    status: APPROVED
     agent: graphics_optimization
     dependencies: [ARCH-003]
+    acceptance_criteria:
+      - Script benchmark_runner.gd e log de performance criados
 
   - id: CAR-001
     title: Veículo Protótipo RWD com dados desacoplados
@@ -93,3 +95,66 @@ tasks:
     dependencies: [CAR-001]
     acceptance_criteria:
       - Mostradores atualizados em tempo real conforme telemetria
+
+  - id: AI-001
+    title: IA Competitiva com Waypoints 3D e Rival Vermelho
+    priority: P0
+    status: APPROVED
+    agent: ai_driver
+    dependencies: [CAR-001, TRK-001]
+    acceptance_criteria:
+      - Script AIDriverController.gd e cena VehicleRivalAI.tscn
+
+  - id: PHY-002
+    title: Assistências de Pilotagem ABS, TCS e ESP
+    priority: P1
+    status: APPROVED
+    agent: vehicle_physics
+    dependencies: [CAR-001]
+    acceptance_criteria:
+      - DrivingAssists.gd integrado no carro
+
+  - id: AUD-001
+    title: Áudio dinâmico procedural de Motor e Pneus
+    priority: P1
+    status: APPROVED
+    agent: audio
+    dependencies: [CAR-001]
+    acceptance_criteria:
+      - VehicleAudio.gd com sintetizador de RPM e skid sound
+
+  - id: UI-001
+    title: Menu Principal com configurações de Vídeo e Áudio
+    priority: P1
+    status: APPROVED
+    agent: ui_ux
+    dependencies: []
+    acceptance_criteria:
+      - MainMenu.tscn com seleção de modos e presets gráficos
+
+  - id: UI-002
+    title: Garagem e Seleção de Veículos com Ficha Técnica
+    priority: P1
+    status: APPROVED
+    agent: ui_ux
+    dependencies: [UI-001]
+    acceptance_criteria:
+      - CarSelectionMenu.tscn com troca dinâmica de carros
+
+  - id: CORE-001
+    title: GameManager e Injeção de Veículo na Pista
+    priority: P0
+    status: APPROVED
+    agent: architect
+    dependencies: [UI-002, CAR-001]
+    acceptance_criteria:
+      - GameManager.gd transferindo parâmetros para a pista
+
+  - id: RCE-001
+    title: Checkpoints, Contagem de Voltas e Tela de Resultados
+    priority: P0
+    status: APPROVED
+    agent: gameplay
+    dependencies: [TRK-001]
+    acceptance_criteria:
+      - LapCheckpointsManager.gd e RaceResultsScreen.tscn funcionais
