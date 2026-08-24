@@ -1,0 +1,66 @@
+extends Control
+class_name MinimapOverlay
+
+@export var player_node: Node3D
+@export var ai_nodes: Array[Node3D] = []
+
+# Dimensões da área da pista em metros para mapeamento 2D
+@export var world_min: Vector2 = Vector2(-60.0, -180.0) # X, Z
+@export var world_max: Vector2 = Vector2(30.0, 320.0)
+
+@onready var track_line: Line2D = $Panel/MapArea/TrackLine
+@onready var player_dot: ColorRect = $Panel/MapArea/PlayerDot
+@onready var map_area: Control = $Panel/MapArea
+
+var ai_dots: Array[ColorRect] = []
+
+func _ready() -> void:
+	setup_minimap_track()
+	setup_ai_dots()
+
+func setup_minimap_track() -> void:
+	# Traçado simplificado 2D da pista (Reta principal -> S do Senna -> Curva do Sol -> Reta Oposta)
+	var waypoints_world = [
+		Vector2(0, -160),
+		Vector2(0, 160),
+		Vector2(-18, 230),
+		Vector2(-28, 280),
+		Vector2(-10, 310)
+	]
+	
+	track_line.clear_points()
+	for pt in waypoints_world:
+		track_line.add_point(world_to_minimap(pt))
+
+func setup_ai_dots() -> void:
+	for i in range(ai_nodes.size()):
+		var dot = ColorRect.new()
+		dot.size = Vector2(6, 6)
+		dot.color = Color(0.95, 0.2, 0.2, 1) # Ponto vermelho para os rivais
+		map_area.add_child(dot)
+		ai_dots.append(dot)
+
+func _process(_delta: float) -> void:
+	if not map_area:
+		return
+	
+	# Posição do Player no minimapa
+	if player_node and is_instance_valid(player_node):
+		var p_pos2d = Vector2(player_node.global_transform.origin.x, player_node.global_transform.origin.z)
+		var p_map_pos = world_to_minimap(p_pos2d)
+		player_dot.position = p_map_pos - (player_dot.size * 0.5)
+	
+	# Posição dos oponentes IA
+	for i in range(ai_nodes.size()):
+		var ai = ai_nodes[i]
+		if i < ai_dots.size() and is_instance_valid(ai):
+			var ai_pos2d = Vector2(ai.global_transform.origin.x, ai.global_transform.origin.z)
+			var ai_map_pos = world_to_minimap(ai_pos2d)
+			ai_dots[i].position = ai_map_pos - (ai_dots[i].size * 0.5)
+
+func world_to_minimap(world_pos: Vector2) -> Vector2:
+	var area_size = map_area.size
+	var norm_x = inverse_lerp(world_min.x, world_max.x, world_pos.x)
+	var norm_y = inverse_lerp(world_min.y, world_max.y, world_pos.y)
+	
+	return Vector2(norm_x * area_size.x, norm_y * area_size.y)

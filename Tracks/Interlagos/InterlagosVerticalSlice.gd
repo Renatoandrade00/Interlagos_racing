@@ -7,6 +7,7 @@ class_name InterlagosSlice
 @onready var hud: RacingHUD = $RacingHUD
 @onready var lap_manager: LapCheckpointsManager = $LapManager
 @onready var telemetry_overlay: TelemetryOverlay = $TelemetryOverlay
+@onready var minimap_overlay: MinimapOverlay = $MinimapOverlay
 
 func _ready() -> void:
 	if chase_camera and player_car:
@@ -15,6 +16,12 @@ func _ready() -> void:
 		hud.vehicle = player_car
 	if telemetry_overlay and player_car:
 		telemetry_overlay.vehicle = player_car
+	if minimap_overlay:
+		if player_car:
+			minimap_overlay.player_node = player_car
+		if rival_car:
+			minimap_overlay.ai_nodes = [rival_car]
+	
 	if lap_manager:
 		if player_car:
 			lap_manager.register_car(player_car)
