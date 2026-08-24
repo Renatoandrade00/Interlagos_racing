@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="VehicleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Vehicles/VehicleData.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "car_ai_rival"
+display_name = "Rival GT Racer"
+category = "Sports Coupe"
+mass = 1350.0
+center_of_mass_offset = Vector3(0, -0.25, 0)
+max_engine_force = 410.0
+max_brake_force = 75.0
+redline_rpm = 7500.0
+idle_rpm = 950.0
+gear_ratios = Array[float]([-3.4, 0.0, 3.8, 2.3, 1.6, 1.2, 0.95])
+final_drive = 3.9
+suspension_travel = 0.2
+suspension_stiffness = 50.0
+suspension_damping = 5.0
+tire_friction_slip = 2.6
+steer_limit_deg = 32.0
+steer_speed = 5.0

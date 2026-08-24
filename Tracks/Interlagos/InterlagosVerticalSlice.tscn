@@ -1,9 +1,12 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
+[ext_resource type="PackedScene" path="res://Vehicles/VehicleRivalAI.tscn" id="2_rival"]
 [ext_resource type="Script" path="res://Core/ChaseCamera.gd" id="3_cam"]
 [ext_resource type="PackedScene" path="res://UI/RacingHUD.tscn" id="4_hud"]
+[ext_resource type="Script" path="res://AI/AIDriverController.gd" id="5_ai"]
+[ext_resource type="Script" path="res://Race/LapCheckpointsManager.gd" id="6_laps"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.38, 0.65, 0.98, 1)
@@ -50,6 +53,9 @@ size = Vector3(16, 0.2, 140)
 [sub_resource type="BoxShape3D" id="BoxShape3D_senna_s"]
 size = Vector3(16, 0.2, 140)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_cp"]
+size = Vector3(20, 5, 2)
+
 [node name="InterlagosVerticalSlice" type="Node3D"]
 script = ExtResource("1_track")
 
@@ -88,11 +94,44 @@ mesh = SubResource("BoxMesh_senna_s")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TrackSennaS_Downhill"]
 shape = SubResource("BoxShape3D_senna_s")
 
+[node name="Checkpoints" type="Node3D" parent="."]
+
+[node name="Checkpoint0_StartFinish" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -130)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint0_StartFinish"]
+shape = SubResource("BoxShape3D_cp")
+
+[node name="Checkpoint1_SennaSEntry" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 170)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint1_SennaSEntry"]
+shape = SubResource("BoxShape3D_cp")
+
+[node name="Checkpoint2_SolApex" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -18, -2, 280)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Checkpoints/Checkpoint2_SolApex"]
+shape = SubResource("BoxShape3D_cp")
+
+[node name="LapManager" type="Node" parent="." node_paths=PackedStringArray("checkpoints")]
+script = ExtResource("6_laps")
+checkpoints = [NodePath("../Checkpoints/Checkpoint0_StartFinish"), NodePath("../Checkpoints/Checkpoint1_SennaSEntry"), NodePath("../Checkpoints/Checkpoint2_SolApex")]
+
 [node name="VehiclePrototype" parent="." instance=ExtResource("2_car")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -140)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 1.2, -145)
+
+[node name="VehicleRivalAI" parent="." instance=ExtResource("2_rival")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.5, 1.2, -145)
+
+[node name="AIController" type="Node" parent="." node_paths=PackedStringArray("vehicle")]
+script = ExtResource("5_ai")
+vehicle = NodePath("../VehicleRivalAI")
+waypoints = [Vector3(2.5, 1.2, -50), Vector3(2, 1.2, 50), Vector3(1, 1.2, 160), Vector3(-12, -4, 240), Vector3(-25, -6, 290)]
+target_speed_kmh = 135.0
 
 [node name="ChaseCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, -146)
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3, -150)
 current = true
 script = ExtResource("3_cam")
 
