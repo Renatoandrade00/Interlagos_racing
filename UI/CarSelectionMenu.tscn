@@ -1,0 +1,164 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://UI/CarSelectionMenu.gd" id="1_car_select"]
+
+[node name="CarSelectionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_car_select")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.1, 0.14, 1)
+
+[node name="TitleLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 40.0
+offset_right = 200.0
+offset_bottom = 85.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "SELEÇÃO DE VEÍCULO"
+horizontal_alignment = 1
+
+[node name="InfoPanel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -280.0
+offset_top = -140.0
+offset_right = 280.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CarNameLabel" type="Label" parent="InfoPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 20.0
+offset_right = 250.0
+offset_bottom = 60.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 28
+text = "Apex GT Prototype"
+horizontal_alignment = 1
+
+[node name="CategoryLabel" type="Label" parent="InfoPanel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -200.0
+offset_top = 60.0
+offset_right = 200.0
+offset_bottom = 90.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.35, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "Sports Coupe"
+horizontal_alignment = 1
+
+[node name="SpecsGrid" type="GridContainer" parent="InfoPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -10.0
+offset_right = 200.0
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="MassLabel" type="Label" parent="InfoPanel/SpecsGrid"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Peso:"
+
+[node name="MassValue" type="Label" parent="InfoPanel/SpecsGrid"]
+layout_mode = 2
+text = "1380 kg"
+
+[node name="PowerLabel" type="Label" parent="InfoPanel/SpecsGrid"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Força do Motor:"
+
+[node name="PowerValue" type="Label" parent="InfoPanel/SpecsGrid"]
+layout_mode = 2
+text = "420 N"
+
+[node name="DrivetrainLabel" type="Label" parent="InfoPanel/SpecsGrid"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Tração:"
+
+[node name="DrivetrainValue" type="Label" parent="InfoPanel/SpecsGrid"]
+layout_mode = 2
+text = "RWD"
+
+[node name="NavPanel" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -180.0
+offset_right = 200.0
+offset_bottom = -130.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="BtnPrev" type="Button" parent="NavPanel"]
+custom_minimum_size = Vector2(80, 45)
+layout_mode = 2
+text = "◀ ANT"
+
+[node name="BtnSelect" type="Button" parent="NavPanel"]
+custom_minimum_size = Vector2(180, 45)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+text = "🏁 SELECIONAR"
+
+[node name="BtnNext" type="Button" parent="NavPanel"]
+custom_minimum_size = Vector2(80, 45)
+layout_mode = 2
+text = "PROX ▶"
+
+[node name="BtnBack" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -70.0
+offset_right = 160.0
+offset_bottom = -30.0
+grow_vertical = 0
+text = "⬅ VOLTAR"

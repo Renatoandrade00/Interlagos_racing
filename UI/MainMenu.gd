@@ -39,7 +39,7 @@ func setup_settings_options() -> void:
 	slider_volume.value_changed.connect(_on_volume_changed)
 
 func _on_quick_race_pressed() -> void:
-	get_tree().change_scene_to_file("res://Tracks/Interlagos/InterlagosVerticalSlice.tscn")
+	get_tree().change_scene_to_file("res://UI/CarSelectionMenu.tscn")
 
 func _on_time_trial_pressed() -> void:
 	get_tree().change_scene_to_file("res://Tracks/Interlagos/InterlagosVerticalSlice.tscn")
