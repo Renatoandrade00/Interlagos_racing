@@ -1,7 +1,9 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://Vehicles/VehicleBase.gd" id="1_base"]
 [ext_resource type="Resource" path="res://Vehicles/car_proto_rwd.tres" id="2_data"]
+[ext_resource type="Script" path="res://Vehicles/DrivingAssists.gd" id="3_assists"]
+[ext_resource type="Script" path="res://Audio/VehicleAudio.gd" id="4_audio"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_chassis"]
 size = Vector3(1.8, 0.7, 4.2)
@@ -32,6 +34,14 @@ height = 0.25
 [node name="VehiclePrototype" type="VehicleBody3D"]
 script = ExtResource("1_base")
 data = ExtResource("2_data")
+
+[node name="DrivingAssists" type="Node" parent="." node_paths=PackedStringArray("vehicle")]
+script = ExtResource("3_assists")
+vehicle = NodePath("..")
+
+[node name="VehicleAudio" type="Node" parent="." node_paths=PackedStringArray("vehicle")]
+script = ExtResource("4_audio")
+vehicle = NodePath("..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
