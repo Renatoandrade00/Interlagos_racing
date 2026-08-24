@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene load_steps=22 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://AI/AIDriverController.gd" id="5_ai"]
 [ext_resource type="Script" path="res://Race/LapCheckpointsManager.gd" id="6_laps"]
 [ext_resource type="PackedScene" path="res://UI/PauseMenu.tscn" id="7_pause"]
+[ext_resource type="PackedScene" path="res://Tracks/TrackCurb.tscn" id="8_curb"]
+[ext_resource type="PackedScene" path="res://Tracks/GuardRail.tscn" id="9_rail"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.38, 0.65, 0.98, 1)
@@ -94,6 +96,22 @@ mesh = SubResource("BoxMesh_senna_s")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="TrackSennaS_Downhill"]
 shape = SubResource("BoxShape3D_senna_s")
+
+[node name="Curbs" type="Node3D" parent="."]
+
+[node name="TrackCurb_SennaInside" parent="Curbs" instance=ExtResource("8_curb")]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -10, -2.5, 210)
+
+[node name="TrackCurb_SolOutside" parent="Curbs" instance=ExtResource("8_curb")]
+transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -26, -6.5, 280)
+
+[node name="Barriers" type="Node3D" parent="."]
+
+[node name="GuardRail_StraightLeft" parent="Barriers" instance=ExtResource("9_rail")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.2, 0, 0)
+
+[node name="GuardRail_StraightRight" parent="Barriers" instance=ExtResource("9_rail")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 0, 0)
 
 [node name="Checkpoints" type="Node3D" parent="."]
 

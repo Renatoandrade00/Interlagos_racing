@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_curb_red"]
+albedo_color = Color(0.85, 0.1, 0.1, 1)
+roughness = 0.8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_curb_white"]
+albedo_color = Color(0.95, 0.95, 0.95, 1)
+roughness = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_curb_segment"]
+size = Vector3(1.2, 0.12, 2.0)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_curb"]
+size = Vector3(1.2, 0.12, 10.0)
+
+[node name="TrackCurb" type="StaticBody3D"]
+
+[node name="CurbSegmentRed1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -4)
+material_override = SubResource("StandardMaterial3D_curb_red")
+mesh = SubResource("BoxMesh_curb_segment")
+
+[node name="CurbSegmentWhite1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, -2)
+material_override = SubResource("StandardMaterial3D_curb_white")
+mesh = SubResource("BoxMesh_curb_segment")
+
+[node name="CurbSegmentRed2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+material_override = SubResource("StandardMaterial3D_curb_red")
+mesh = SubResource("BoxMesh_curb_segment")
+
+[node name="CurbSegmentWhite2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 2)
+material_override = SubResource("StandardMaterial3D_curb_white")
+mesh = SubResource("BoxMesh_curb_segment")
+
+[node name="CurbSegmentRed3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 4)
+material_override = SubResource("StandardMaterial3D_curb_red")
+mesh = SubResource("BoxMesh_curb_segment")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+shape = SubResource("BoxShape3D_curb")
