@@ -10,6 +10,10 @@ class_name VehicleBase
 @onready var wheel_rl: VehicleWheel3D = $WheelRL
 @onready var wheel_rr: VehicleWheel3D = $WheelRR
 
+# Partículas de fumaça de pneu
+@onready var smoke_rl: CPUParticles3D = $WheelRL/SmokeRL if has_node("WheelRL/SmokeRL") else null
+@onready var smoke_rr: CPUParticles3D = $WheelRR/SmokeRR if has_node("WheelRR/SmokeRR") else null
+
 # Estado dinâmico do veículo
 var current_gear_idx: int = 2 # 0: R, 1: N, 2: 1ª, 3: 2ª...
 var current_rpm: float = 900.0
@@ -46,7 +50,18 @@ func _physics_process(delta: float) -> void:
 		process_player_input(delta)
 	
 	process_powertrain(delta)
+	process_tire_effects()
 	update_telemetry()
+
+func process_tire_effects() -> void:
+	var rl_slip = wheel_rl.get_skidinfo() if wheel_rl else 1.0
+	var rr_slip = wheel_rr.get_skidinfo() if wheel_rr else 1.0
+	var is_burnout = engine_force > 100.0 and current_speed_kmh < 15.0
+	
+	if smoke_rl:
+		smoke_rl.emitting = rl_slip < 0.6 or is_burnout
+	if smoke_rr:
+		smoke_rr.emitting = rr_slip < 0.6 or is_burnout
 
 func process_player_input(delta: float) -> void:
 	# Aceleração e Frenagem
