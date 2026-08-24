@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3]
+[gd_scene load_steps=19 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://UI/RacingHUD.tscn" id="4_hud"]
 [ext_resource type="Script" path="res://AI/AIDriverController.gd" id="5_ai"]
 [ext_resource type="Script" path="res://Race/LapCheckpointsManager.gd" id="6_laps"]
+[ext_resource type="PackedScene" path="res://UI/PauseMenu.tscn" id="7_pause"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.38, 0.65, 0.98, 1)
@@ -136,3 +137,5 @@ current = true
 script = ExtResource("3_cam")
 
 [node name="RacingHUD" parent="." instance=ExtResource("4_hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("7_pause")]
