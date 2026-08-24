@@ -4,9 +4,9 @@ class_name MinimapOverlay
 @export var player_node: Node3D
 @export var ai_nodes: Array[Node3D] = []
 
-# Dimensões da área da pista em metros para mapeamento 2D
-@export var world_min: Vector2 = Vector2(-60.0, -180.0) # X, Z
-@export var world_max: Vector2 = Vector2(30.0, 320.0)
+# Dimensões da área da pista em metros para mapeamento 2D do circuito completo
+@export var world_min: Vector2 = Vector2(-250.0, -250.0) # X, Z
+@export var world_max: Vector2 = Vector2(30.0, 310.0)
 
 @onready var track_line: Line2D = $Panel/MapArea/TrackLine
 @onready var player_dot: ColorRect = $Panel/MapArea/PlayerDot
@@ -19,18 +19,18 @@ func _ready() -> void:
 	setup_ai_dots()
 
 func setup_minimap_track() -> void:
-	# Traçado simplificado 2D da pista (Reta principal -> S do Senna -> Curva do Sol -> Reta Oposta)
-	var waypoints_world = [
-		Vector2(0, -160),
-		Vector2(0, 160),
-		Vector2(-18, 230),
-		Vector2(-28, 280),
-		Vector2(-10, 310)
-	]
-	
 	track_line.clear_points()
-	for pt in waypoints_world:
-		track_line.add_point(world_to_minimap(pt))
+	
+	# Usar nós mestres do circuito completo de Interlagos
+	var nodes = InterlagosTrackBuilder.CIRCUIT_NODES
+	for pt in nodes:
+		var pt2d := Vector2(pt.x, pt.z)
+		track_line.add_point(world_to_minimap(pt2d))
+	
+	# Fechar o traçado no ponto inicial
+	if not nodes.is_empty():
+		var first_pt := Vector2(nodes[0].x, nodes[0].z)
+		track_line.add_point(world_to_minimap(first_pt))
 
 func setup_ai_dots() -> void:
 	for i in range(ai_nodes.size()):

@@ -11,25 +11,30 @@ class_name InterlagosSlice
 @onready var minimap_overlay: MinimapOverlay = $MinimapOverlay
 @onready var results_screen: RaceResultsScreen = $RaceResultsScreen
 @onready var countdown_overlay: CountdownController = $CountdownController
+@onready var track_builder: InterlagosTrackBuilder = $TrackBuilder
+@onready var ai_controller: AIDriverController = $AIController
 
 var total_race_laps: int = 3
 var race_start_timestamp: float = 0.0
 var race_started: bool = false
 
 func _ready() -> void:
-	# Carregar dados do carro escolhido pelo jogador
+	# Carregar dados do carro escolhido
 	if player_car:
 		player_car.data = GameManager.get_selected_vehicle()
 		player_car.apply_vehicle_data()
-		player_car.set_physics_process(false) # Bloqueia até largada
+		player_car.set_physics_process(false)
 	
 	if rival_car:
 		rival_car.set_physics_process(false)
 	
+	# Configurar waypoints da IA com todo o traçado do circuito
+	if ai_controller and track_builder:
+		ai_controller.waypoints = track_builder.get_circuit_waypoints()
+	
 	# --- CÂMERA: conectar ao carro do jogador ---
 	if chase_camera and player_car:
 		chase_camera.target_node = player_car
-		# Posicionar câmera imediatamente ATRÁS do carro
 		var car_pos = player_car.global_transform.origin
 		var forward = -player_car.global_transform.basis.z.normalized()
 		chase_camera.global_transform.origin = car_pos - (forward * 6.2) + Vector3(0, 2.4, 0)
@@ -66,7 +71,7 @@ func _on_race_start() -> void:
 		player_car.set_physics_process(true)
 	if rival_car:
 		rival_car.set_physics_process(true)
-	print("[RACE] Corrida iniciada!")
+	print("[RACE] Corrida completa de Interlagos iniciada!")
 
 func _on_lap_completed(car: Node, lap_num: int, lap_time: float) -> void:
 	if car == player_car:
@@ -74,13 +79,11 @@ func _on_lap_completed(car: Node, lap_num: int, lap_time: float) -> void:
 		var seconds = fmod(lap_time, 60.0)
 		print("[RACE] Player completed Lap %d - Time: %02d:%05.2f" % [lap_num, minutes, seconds])
 		
-		# Atualizar label de volta no HUD
 		if hud:
 			var lap_lbl = hud.get_node_or_null("TopHeader/LapContainer/LapValue") as Label
 			if lap_lbl:
 				lap_lbl.text = "LAP %d/%d" % [min(lap_num + 1, total_race_laps), total_race_laps]
 		
-		# Fim de corrida
 		if lap_num >= total_race_laps and results_screen:
 			var now = Time.get_ticks_msec() / 1000.0
 			var total_time = now - race_start_timestamp

@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
@@ -9,16 +9,14 @@
 [ext_resource type="Script" path="res://AI/AIDriverController.gd" id="5_ai"]
 [ext_resource type="Script" path="res://Race/LapCheckpointsManager.gd" id="6_laps"]
 [ext_resource type="PackedScene" path="res://UI/PauseMenu.tscn" id="7_pause"]
-[ext_resource type="PackedScene" path="res://Tracks/TrackCurb.tscn" id="8_curb"]
-[ext_resource type="PackedScene" path="res://Tracks/GuardRail.tscn" id="9_rail"]
 [ext_resource type="PackedScene" path="res://UI/TelemetryOverlay.tscn" id="10_telem"]
 [ext_resource type="PackedScene" path="res://UI/MinimapOverlay.tscn" id="11_minimap"]
 [ext_resource type="PackedScene" path="res://UI/RaceResultsScreen.tscn" id="12_results"]
 [ext_resource type="PackedScene" path="res://UI/CountdownController.tscn" id="13_countdown"]
 [ext_resource type="PackedScene" path="res://Tracks/GrandStand.tscn" id="14_stand"]
 [ext_resource type="PackedScene" path="res://Tracks/PitBuilding.tscn" id="15_pit"]
-[ext_resource type="Texture2D" path="res://Graphics/asphalt_texture.png" id="16_asphalt"]
 [ext_resource type="Texture2D" path="res://Graphics/grass_texture.png" id="17_grass"]
+[ext_resource type="Script" path="res://Tracks/Interlagos/TrackGenerator.gd" id="18_builder"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMat"]
 sky_top_color = Color(0.18, 0.42, 0.88, 1)
@@ -47,47 +45,20 @@ glow_intensity = 0.3
 glow_bloom = 0.08
 fog_enabled = true
 fog_light_color = Color(0.7, 0.8, 0.9, 1)
-fog_density = 0.0008
+fog_density = 0.0006
 fog_sky_affect = 0.2
 
 [sub_resource type="StandardMaterial3D" id="GrassMat"]
 albedo_texture = ExtResource("17_grass")
 roughness = 0.92
-uv1_scale = Vector3(100, 100, 1)
+uv1_scale = Vector3(150, 150, 1)
 
 [sub_resource type="PlaneMesh" id="TerrainMesh"]
 material = SubResource("GrassMat")
-size = Vector2(1000, 1000)
+size = Vector2(1500, 1500)
 
 [sub_resource type="BoxShape3D" id="GroundCol"]
-size = Vector3(1000, 1, 1000)
-
-[sub_resource type="StandardMaterial3D" id="AsphaltMat"]
-albedo_texture = ExtResource("16_asphalt")
-roughness = 0.78
-uv1_scale = Vector3(5, 40, 1)
-
-[sub_resource type="BoxMesh" id="StraightMesh"]
-material = SubResource("AsphaltMat")
-size = Vector3(14, 0.18, 380)
-
-[sub_resource type="BoxShape3D" id="StraightCol"]
-size = Vector3(14, 0.18, 380)
-
-[sub_resource type="BoxMesh" id="SennaMesh"]
-material = SubResource("AsphaltMat")
-size = Vector3(15, 0.18, 150)
-
-[sub_resource type="BoxShape3D" id="SennaCol"]
-size = Vector3(15, 0.18, 150)
-
-[sub_resource type="StandardMaterial3D" id="WhiteLineMat"]
-albedo_color = Color(0.92, 0.92, 0.95, 1)
-roughness = 0.45
-
-[sub_resource type="BoxMesh" id="LineMesh"]
-material = SubResource("WhiteLineMat")
-size = Vector3(0.18, 0.19, 380)
+size = Vector3(1500, 1, 1500)
 
 [sub_resource type="StandardMaterial3D" id="StartLineMat"]
 albedo_color = Color(0.96, 0.96, 0.98, 1)
@@ -95,20 +66,7 @@ roughness = 0.5
 
 [sub_resource type="BoxMesh" id="StartMesh"]
 material = SubResource("StartLineMat")
-size = Vector3(14, 0.2, 0.5)
-
-[sub_resource type="StandardMaterial3D" id="FenceMat"]
-albedo_color = Color(0.6, 0.62, 0.65, 1)
-metallic = 0.7
-roughness = 0.5
-
-[sub_resource type="BoxMesh" id="FencePostMesh"]
-material = SubResource("FenceMat")
-size = Vector3(0.08, 1.2, 0.08)
-
-[sub_resource type="BoxMesh" id="FenceRailMesh"]
-material = SubResource("FenceMat")
-size = Vector3(0.04, 0.04, 30)
+size = Vector3(14, 0.2, 0.6)
 
 [sub_resource type="StandardMaterial3D" id="BarkMat"]
 albedo_color = Color(0.28, 0.18, 0.1, 1)
@@ -129,16 +87,8 @@ material = SubResource("LeafMat")
 radius = 3.0
 height = 4.5
 
-[sub_resource type="StandardMaterial3D" id="AdBoardMat"]
-albedo_color = Color(0.15, 0.25, 0.65, 1)
-roughness = 0.6
-
-[sub_resource type="BoxMesh" id="AdBoardMesh"]
-material = SubResource("AdBoardMat")
-size = Vector3(8, 2.5, 0.12)
-
 [sub_resource type="BoxShape3D" id="CpCol"]
-size = Vector3(20, 5, 2)
+size = Vector3(25, 6, 4)
 
 [node name="InterlagosVerticalSlice" type="Node3D"]
 script = ExtResource("1_track")
@@ -147,13 +97,14 @@ script = ExtResource("1_track")
 environment = SubResource("Env")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 0, 100, 0)
+transform = Transform3D(0.819152, -0.40558, 0.40558, 0, 0.707107, 0.707107, -0.573576, -0.579228, 0.579228, 0, 120, 0)
 light_color = Color(1.0, 0.96, 0.88, 1)
 light_energy = 1.25
 shadow_enabled = true
 shadow_bias = 0.02
-directional_shadow_max_distance = 200.0
+directional_shadow_max_distance = 300.0
 
+; --- TERRENO AMPLO ---
 [node name="Terrain" type="StaticBody3D" parent="."]
 
 [node name="Mesh" type="MeshInstance3D" parent="Terrain"]
@@ -163,36 +114,16 @@ mesh = SubResource("TerrainMesh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("GroundCol")
 
-[node name="TrackStraight" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.09, 0)
+; --- GERADOR PROCEDURAL DO CIRCUITO COMPLETO DE INTERLAGOS (12 CURVAS) ---
+[node name="TrackBuilder" type="Node3D" parent="."]
+script = ExtResource("18_builder")
 
-[node name="Mesh" type="MeshInstance3D" parent="TrackStraight"]
-mesh = SubResource("StraightMesh")
-
-[node name="Col" type="CollisionShape3D" parent="TrackStraight"]
-shape = SubResource("StraightCol")
-
-[node name="LineL" type="MeshInstance3D" parent="TrackStraight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.8, 0.01, 0)
-mesh = SubResource("LineMesh")
-
-[node name="LineR" type="MeshInstance3D" parent="TrackStraight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.01, 0)
-mesh = SubResource("LineMesh")
-
-[node name="StartLine" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.19, -130)
+; --- LINHA DE LARGADA E CHEGADA ---
+[node name="StartFinishMark" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.22, -130)
 mesh = SubResource("StartMesh")
 
-[node name="TrackSennaS" type="StaticBody3D" parent="."]
-transform = Transform3D(0.939693, 0.0593912, -0.336824, 0, 0.984808, 0.173648, 0.34202, -0.163176, 0.925417, -18, -4.5, 230)
-
-[node name="Mesh" type="MeshInstance3D" parent="TrackSennaS"]
-mesh = SubResource("SennaMesh")
-
-[node name="Col" type="CollisionShape3D" parent="TrackSennaS"]
-shape = SubResource("SennaCol")
-
+; --- ESTRUTURAS DO PADDOCK E ARQUIBANCADAS ---
 [node name="Structures" type="Node3D" parent="."]
 
 [node name="PitBuilding" parent="Structures" instance=ExtResource("15_pit")]
@@ -204,54 +135,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22, 0, -110)
 [node name="GrandStand_Senna" parent="Structures" instance=ExtResource("14_stand")]
 transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -35, -3, 200)
 
-[node name="AdBoards" type="Node3D" parent="."]
+[node name="GrandStand_RetaOposta" parent="Structures" instance=ExtResource("14_stand")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, -120, -7, 245)
 
-[node name="Ad01" type="MeshInstance3D" parent="AdBoards"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, -50)
-mesh = SubResource("AdBoardMesh")
+[node name="GrandStand_Juncao" parent="Structures" instance=ExtResource("14_stand")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -35, -2, -235)
 
-[node name="Ad02" type="MeshInstance3D" parent="AdBoards"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, 0)
-mesh = SubResource("AdBoardMesh")
-
-[node name="Ad03" type="MeshInstance3D" parent="AdBoards"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, 50)
-mesh = SubResource("AdBoardMesh")
-
-[node name="Ad04" type="MeshInstance3D" parent="AdBoards"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 1.5, 100)
-mesh = SubResource("AdBoardMesh")
-
-[node name="Fences" type="Node3D" parent="."]
-
-[node name="FencePost01" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, -80)
-mesh = SubResource("FencePostMesh")
-
-[node name="FencePost02" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, -50)
-mesh = SubResource("FencePostMesh")
-
-[node name="FencePost03" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, -20)
-mesh = SubResource("FencePostMesh")
-
-[node name="FencePost04" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, 10)
-mesh = SubResource("FencePostMesh")
-
-[node name="FencePost05" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, 40)
-mesh = SubResource("FencePostMesh")
-
-[node name="FenceRailTop" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.1, -20)
-mesh = SubResource("FenceRailMesh")
-
-[node name="FenceRailMid" type="MeshInstance3D" parent="Fences"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0.6, -20)
-mesh = SubResource("FenceRailMesh")
-
+; --- ÁRVORES E VEGETAÇÃO DO CIRCUITO ---
 [node name="Trees" type="Node3D" parent="."]
 
 [node name="T1" type="Node3D" parent="Trees"]
@@ -264,7 +154,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 mesh = SubResource("CanopyMesh")
 
 [node name="T2" type="Node3D" parent="Trees"]
-transform = Transform3D(1.15, 0, 0, 0, 1.2, 0, 0, 0, 1.15, -24, 0, -30)
+transform = Transform3D(1.15, 0, 0, 0, 1.2, 0, 0, 0, 1.15, -60, -4, 180)
 [node name="Trunk" type="MeshInstance3D" parent="Trees/T2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 mesh = SubResource("TrunkMesh")
@@ -273,7 +163,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 mesh = SubResource("CanopyMesh")
 
 [node name="T3" type="Node3D" parent="Trees"]
-transform = Transform3D(0.9, 0, 0, 0, 1.1, 0, 0, 0, 0.9, -22, 0, 20)
+transform = Transform3D(1.1, 0, 0, 0, 1.1, 0, 0, 0, 1.1, -110, 0, -60)
 [node name="Trunk" type="MeshInstance3D" parent="Trees/T3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 mesh = SubResource("TrunkMesh")
@@ -282,7 +172,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 mesh = SubResource("CanopyMesh")
 
 [node name="T4" type="Node3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1.3, 0, 0, 0, 1, 20, 0, -50)
+transform = Transform3D(1.2, 0, 0, 0, 1.3, 0, 0, 0, 1.2, -180, -5, 0)
 [node name="Trunk" type="MeshInstance3D" parent="Trees/T4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 mesh = SubResource("TrunkMesh")
@@ -290,94 +180,73 @@ mesh = SubResource("TrunkMesh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
 mesh = SubResource("CanopyMesh")
 
-[node name="T5" type="Node3D" parent="Trees"]
-transform = Transform3D(1.2, 0, 0, 0, 1, 0, 0, 0, 1.2, 22, 0, 30)
-[node name="Trunk" type="MeshInstance3D" parent="Trees/T5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-mesh = SubResource("TrunkMesh")
-[node name="Canopy" type="MeshInstance3D" parent="Trees/T5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
-mesh = SubResource("CanopyMesh")
-
-[node name="T6" type="Node3D" parent="Trees"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28, 0, 60)
-[node name="Trunk" type="MeshInstance3D" parent="Trees/T6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-mesh = SubResource("TrunkMesh")
-[node name="Canopy" type="MeshInstance3D" parent="Trees/T6"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
-mesh = SubResource("CanopyMesh")
-
-[node name="T7" type="Node3D" parent="Trees"]
-transform = Transform3D(1.1, 0, 0, 0, 1.15, 0, 0, 0, 1.1, 24, 0, 80)
-[node name="Trunk" type="MeshInstance3D" parent="Trees/T7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-mesh = SubResource("TrunkMesh")
-[node name="Canopy" type="MeshInstance3D" parent="Trees/T7"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
-mesh = SubResource("CanopyMesh")
-
-[node name="T8" type="Node3D" parent="Trees"]
-transform = Transform3D(0.95, 0, 0, 0, 1, 0, 0, 0, 0.95, -18, 0, 120)
-[node name="Trunk" type="MeshInstance3D" parent="Trees/T8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
-mesh = SubResource("TrunkMesh")
-[node name="Canopy" type="MeshInstance3D" parent="Trees/T8"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.5, 0)
-mesh = SubResource("CanopyMesh")
-
-[node name="Curbs" type="Node3D" parent="."]
-
-[node name="CurbSennaIn" parent="Curbs" instance=ExtResource("8_curb")]
-transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -10, -2.5, 210)
-
-[node name="CurbSolOut" parent="Curbs" instance=ExtResource("8_curb")]
-transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -26, -6.5, 280)
-
-[node name="Barriers" type="Node3D" parent="."]
-
-[node name="RailL" parent="Barriers" instance=ExtResource("9_rail")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.2, 0, 0)
-
-[node name="RailR" parent="Barriers" instance=ExtResource("9_rail")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.2, 0, 0)
-
+; --- CHECKPOINTS DE CRONOMETRAGEM DE VOLTA (3 SETORES OFICIAIS) ---
 [node name="Checkpoints" type="Node3D" parent="."]
 
+; CP 0: Linha de Chegada / Largada (Start/Finish)
 [node name="CP0_StartFinish" type="Area3D" parent="Checkpoints"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -130)
 [node name="Col" type="CollisionShape3D" parent="Checkpoints/CP0_StartFinish"]
 shape = SubResource("CpCol")
 
-[node name="CP1_SennaEntry" type="Area3D" parent="Checkpoints"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 170)
-[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP1_SennaEntry"]
+; CP 1: Fim do Setor 1 (Saída da Curva do Sol)
+[node name="CP1_Sector1" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -80, -5, 280)
+[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP1_Sector1"]
 shape = SubResource("CpCol")
 
-[node name="CP2_SolApex" type="Area3D" parent="Checkpoints"]
-transform = Transform3D(0.939693, 0, -0.34202, 0, 1, 0, 0.34202, 0, 0.939693, -18, -2, 280)
-[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP2_SolApex"]
+; CP 2: Descida do Lago (Curva 4)
+[node name="CP2_Lago" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(0, 0, 1, 0, 1, 0, -1, 0, 0, -225, -4.5, 80)
+[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP2_Lago"]
 shape = SubResource("CpCol")
 
+; CP 3: Curva da Ferradura (Curva 6)
+[node name="CP3_Ferradura" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -155, 0, -85)
+[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP3_Ferradura"]
+shape = SubResource("CpCol")
+
+; CP 4: Fim do Setor 2 (Bico de Pato - Curva 9)
+[node name="CP4_Sector2" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -45, 1.5, -135)
+[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP4_Sector2"]
+shape = SubResource("CpCol")
+
+; CP 5: Curva da Junção (Curva 11 - Início da Subida dos Boxes)
+[node name="CP5_Juncao" type="Area3D" parent="Checkpoints"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -20, 0, -225)
+[node name="Col" type="CollisionShape3D" parent="Checkpoints/CP5_Juncao"]
+shape = SubResource("CpCol")
+
+; --- GERENCIADOR DE VOLTAS ---
 [node name="LapManager" type="Node" parent="." node_paths=PackedStringArray("checkpoints")]
 script = ExtResource("6_laps")
-checkpoints = [NodePath("../Checkpoints/CP0_StartFinish"), NodePath("../Checkpoints/CP1_SennaEntry"), NodePath("../Checkpoints/CP2_SolApex")]
+checkpoints = [
+	NodePath("../Checkpoints/CP0_StartFinish"),
+	NodePath("../Checkpoints/CP1_Sector1"),
+	NodePath("../Checkpoints/CP2_Lago"),
+	NodePath("../Checkpoints/CP3_Ferradura"),
+	NodePath("../Checkpoints/CP4_Sector2"),
+	NodePath("../Checkpoints/CP5_Juncao")
+]
 
-; Carro do jogador apontando para a pista (+Z em direção ao Senna S)
+; --- GRID DE LARGADA ---
+; Carro do Jogador (P1 - Lado Esquerdo do Grid)
 [node name="VehiclePrototype" parent="." instance=ExtResource("2_car")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.5, 0.6, -136)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -2.5, 0.5, -136)
 
-; Carro rival da IA apontando para a pista (+Z em direção ao Senna S)
+; Carro Rival IA (P2 - Lado Direito do Grid)
 [node name="VehicleRivalAI" parent="." instance=ExtResource("2_rival")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.5, 0.6, -144)
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 2.5, 0.5, -144)
 
+; --- CONTROLADOR DA IA ---
 [node name="AIController" type="Node" parent="." node_paths=PackedStringArray("vehicle")]
 script = ExtResource("5_ai")
 vehicle = NodePath("../VehicleRivalAI")
-waypoints = [Vector3(2.5, 0.6, -50), Vector3(2, 0.6, 50), Vector3(1, 0.5, 160), Vector3(-12, -4, 240), Vector3(-25, -6, 290)]
-target_speed_kmh = 135.0
+target_speed_kmh = 160.0
 
-; Câmera de perseguição localizada ATRÁS do carro (Z = -142.2) apontando para a pista (+Z)
+; --- CÂMERA DE PERSEGUIÇÃO ---
 [node name="ChaseCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.96, 0.28, 0, -0.28, 0.96, -2.5, 3.0, -142.2)
 current = true
@@ -387,6 +256,7 @@ script = ExtResource("3_cam")
 [node name="CameraManager" type="Node" parent="."]
 script = ExtResource("3_cam_mgr")
 
+; --- UI / HUD / MINIMAPA / TELEMETRIA ---
 [node name="RacingHUD" parent="." instance=ExtResource("4_hud")]
 [node name="MinimapOverlay" parent="." instance=ExtResource("11_minimap")]
 [node name="TelemetryOverlay" parent="." instance=ExtResource("10_telem")]
