@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="VehicleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Vehicles/VehicleData.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "car_super_awd"
+display_name = "Interlagos Hyper GT"
+category = "Supercar (AWD)"
+mass = 1420.0
+center_of_mass_offset = Vector3(0, -0.3, 0)
+max_engine_force = 580.0
+max_brake_force = 95.0
+redline_rpm = 8500.0
+idle_rpm = 1000.0
+gear_ratios = Array[float]([-3.6, 0.0, 4.1, 2.7, 1.9, 1.45, 1.15, 0.92, 0.78])
+final_drive = 3.5
+suspension_travel = 0.16
+suspension_stiffness = 65.0
+suspension_damping = 6.5
+tire_friction_slip = 3.1
+steer_limit_deg = 30.0
+steer_speed = 5.5
