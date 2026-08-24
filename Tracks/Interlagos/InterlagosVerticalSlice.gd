@@ -32,8 +32,8 @@ func _ready() -> void:
 		# Posicionar câmera imediatamente ATRÁS do carro
 		var car_pos = player_car.global_transform.origin
 		var forward = -player_car.global_transform.basis.z.normalized()
-		chase_camera.global_transform.origin = car_pos - (forward * 6.0) + Vector3(0, 2.2, 0)
-		chase_camera.look_at(car_pos + Vector3(0, 0.6, 0), Vector3.UP)
+		chase_camera.global_transform.origin = car_pos - (forward * 6.2) + Vector3(0, 2.4, 0)
+		chase_camera.look_at(car_pos + (forward * 8.0) + Vector3(0, 0.8, 0), Vector3.UP)
 	
 	if camera_manager and chase_camera and player_car:
 		camera_manager.chase_camera = chase_camera
