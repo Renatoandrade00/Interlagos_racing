@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="VehicleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Vehicles/VehicleData.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "car_muscle_rwd"
+display_name = "Torque V8 Interceptor"
+category = "Muscle Car (RWD)"
+mass = 1680.0
+center_of_mass_offset = Vector3(0, -0.24, 0)
+max_engine_force = 520.0
+max_brake_force = 80.0
+redline_rpm = 6800.0
+idle_rpm = 750.0
+gear_ratios = Array[float]([-3.2, 0.0, 3.4, 2.1, 1.5, 1.1, 0.85])
+final_drive = 3.55
+suspension_travel = 0.24
+suspension_stiffness = 48.0
+suspension_damping = 4.8
+tire_friction_slip = 2.45
+steer_limit_deg = 29.0
+steer_speed = 4.2

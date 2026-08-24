@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="VehicleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Vehicles/VehicleData.gd" id="1_data"]
+
+[resource]
+script = ExtResource("1_data")
+id = "car_touring_spec"
+display_name = "Interlagos Cup Racer"
+category = "Touring Spec (Track RWD)"
+mass = 1180.0
+center_of_mass_offset = Vector3(0, -0.32, 0)
+max_engine_force = 440.0
+max_brake_force = 100.0
+redline_rpm = 8200.0
+idle_rpm = 1100.0
+gear_ratios = Array[float]([-3.5, 0.0, 3.2, 2.3, 1.8, 1.45, 1.2, 1.02])
+final_drive = 4.3
+suspension_travel = 0.12
+suspension_stiffness = 75.0
+suspension_damping = 7.5
+tire_friction_slip = 3.3
+steer_limit_deg = 33.0
+steer_speed = 6.0

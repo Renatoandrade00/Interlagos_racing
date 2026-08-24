@@ -29,7 +29,9 @@ func load_cars() -> void:
 	available_cars.append(preload("res://Vehicles/car_proto_rwd.tres"))
 	available_cars.append(preload("res://Vehicles/car_hatch_fwd.tres"))
 	available_cars.append(preload("res://Vehicles/car_sedan_rwd.tres"))
+	available_cars.append(preload("res://Vehicles/car_muscle_rwd.tres"))
 	available_cars.append(preload("res://Vehicles/car_super_awd.tres"))
+	available_cars.append(preload("res://Vehicles/car_touring_spec.tres"))
 	available_cars.append(preload("res://Vehicles/car_ai_rival.tres"))
 
 func update_car_display() -> void:
