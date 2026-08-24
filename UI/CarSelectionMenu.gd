@@ -53,6 +53,7 @@ func _on_next_pressed() -> void:
 
 func _on_select_pressed() -> void:
 	var car = available_cars[current_car_idx]
+	GameManager.set_selected_vehicle(car)
 	car_selected.emit(car)
 	get_tree().change_scene_to_file("res://Tracks/Interlagos/InterlagosVerticalSlice.tscn")
 

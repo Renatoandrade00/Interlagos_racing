@@ -10,6 +10,10 @@ class_name InterlagosSlice
 @onready var minimap_overlay: MinimapOverlay = $MinimapOverlay
 
 func _ready() -> void:
+	if player_car:
+		player_car.data = GameManager.get_selected_vehicle()
+		player_car.apply_vehicle_data()
+	
 	if chase_camera and player_car:
 		chase_camera.target_node = player_car
 	if hud and player_car:
