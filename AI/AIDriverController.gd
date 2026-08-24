@@ -31,15 +31,15 @@ func _physics_process(delta: float) -> void:
 	var cross_prod = forward.cross(to_target)
 	var steer_amount = clamp(cross_prod.y * 2.5, -1.0, 1.0)
 	
-	# Aplica direção suave
 	var max_steer_rad = deg_to_rad(vehicle.data.steer_limit_deg) if vehicle.data else deg_to_rad(30.0)
 	vehicle.steering = move_toward(vehicle.steering, steer_amount * max_steer_rad, 4.0 * delta)
 	
-	# Controle de aceleração e frenagem baseado na velocidade alvo
+	# Força negativa empurra para FRENTE (-Z) no Godot
 	var spd = vehicle.current_speed_kmh
+	var max_f = vehicle.data.max_engine_force if vehicle.data else 2600.0
 	if spd < target_speed_kmh:
-		vehicle.engine_force = vehicle.data.max_engine_force if vehicle.data else 350.0
+		vehicle.engine_force = -max_f
 		vehicle.brake = 0.0
 	else:
 		vehicle.engine_force = 0.0
-		vehicle.brake = 15.0
+		vehicle.brake = 25.0
