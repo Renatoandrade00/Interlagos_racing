@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=26 format=3]
 
 [ext_resource type="Script" path="res://Tracks/Interlagos/InterlagosVerticalSlice.gd" id="1_track"]
 [ext_resource type="PackedScene" path="res://Vehicles/VehiclePrototype.tscn" id="2_car"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://UI/TelemetryOverlay.tscn" id="10_telem"]
 [ext_resource type="PackedScene" path="res://UI/MinimapOverlay.tscn" id="11_minimap"]
 [ext_resource type="PackedScene" path="res://UI/RaceResultsScreen.tscn" id="12_results"]
+[ext_resource type="PackedScene" path="res://UI/CountdownController.tscn" id="13_countdown"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sky"]
 sky_top_color = Color(0.38, 0.65, 0.98, 1)
@@ -166,3 +167,5 @@ script = ExtResource("3_cam")
 [node name="PauseMenu" parent="." instance=ExtResource("7_pause")]
 
 [node name="RaceResultsScreen" parent="." instance=ExtResource("12_results")]
+
+[node name="CountdownController" parent="." instance=ExtResource("13_countdown")]

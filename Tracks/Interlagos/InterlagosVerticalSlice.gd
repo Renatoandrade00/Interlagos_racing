@@ -9,16 +9,20 @@ class_name InterlagosSlice
 @onready var telemetry_overlay: TelemetryOverlay = $TelemetryOverlay
 @onready var minimap_overlay: MinimapOverlay = $MinimapOverlay
 @onready var results_screen: RaceResultsScreen = $RaceResultsScreen
+@onready var countdown_overlay: CountdownController = $CountdownController
 
 var total_race_laps: int = 3
 var race_start_timestamp: float = 0.0
+var race_started: bool = false
 
 func _ready() -> void:
-	race_start_timestamp = Time.get_ticks_msec() / 1000.0
-	
 	if player_car:
 		player_car.data = GameManager.get_selected_vehicle()
 		player_car.apply_vehicle_data()
+		player_car.set_physics_process(false) # Bloqueia até largada
+	
+	if rival_car:
+		rival_car.set_physics_process(false)
 	
 	if chase_camera and player_car:
 		chase_camera.target_node = player_car
@@ -32,12 +36,24 @@ func _ready() -> void:
 		if rival_car:
 			minimap_overlay.ai_nodes = [rival_car]
 	
+	if countdown_overlay:
+		countdown_overlay.countdown_finished.connect(_on_race_start)
+	
 	if lap_manager:
 		if player_car:
 			lap_manager.register_car(player_car)
 		if rival_car:
 			lap_manager.register_car(rival_car)
 		lap_manager.lap_completed.connect(_on_lap_completed)
+
+func _on_race_start() -> void:
+	race_started = true
+	race_start_timestamp = Time.get_ticks_msec() / 1000.0
+	if player_car:
+		player_car.set_physics_process(true)
+	if rival_car:
+		rival_car.set_physics_process(true)
+	print("[RACE] Corrida iniciada!")
 
 func _on_lap_completed(car: Node, lap_num: int, lap_time: float) -> void:
 	if car == player_car and hud:
