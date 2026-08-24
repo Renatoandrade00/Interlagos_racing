@@ -11,11 +11,14 @@ enum CameraView {
 @export var chase_camera: ChaseCamera
 @export var target_vehicle: VehicleBase
 
-# Configurações de offset para cada visão
+# Configurações para cada ponto de vista
+#   CHASE:  câmera de perseguição clássica atrás e acima do carro (estilo GT4)
+#   HOOD:   câmera rente ao capô, dentro do carro
+#   BUMPER: câmera no nível do asfalto, parachoque dianteiro
 const OFFSETS = {
-	CameraView.CHASE: { "distance": 5.2, "height": 1.9, "look_ahead": 4.0, "fov_base": 70.0 },
-	CameraView.HOOD: { "distance": -0.4, "height": 0.95, "look_ahead": 12.0, "fov_base": 78.0 },
-	CameraView.BUMPER: { "distance": -1.8, "height": 0.45, "look_ahead": 15.0, "fov_base": 85.0 }
+	CameraView.CHASE:  { "distance": 6.0,  "height": 2.2,  "look_ahead": 6.0,  "fov_base": 68.0 },
+	CameraView.HOOD:   { "distance": -0.3, "height": 1.0,  "look_ahead": 14.0, "fov_base": 78.0 },
+	CameraView.BUMPER: { "distance": -1.6, "height": 0.5,  "look_ahead": 18.0, "fov_base": 84.0 }
 }
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -35,11 +38,5 @@ func apply_camera_view() -> void:
 	chase_camera.height = cfg["height"]
 	chase_camera.look_ahead_dist = cfg["look_ahead"]
 	chase_camera.fov_base = cfg["fov_base"]
-	
-	match current_view:
-		CameraView.CHASE:
-			print("[CAMERA] Visão: Perseguição (Chase)")
-		CameraView.HOOD:
-			print("[CAMERA] Visão: Capô (Hood)")
-		CameraView.BUMPER:
-			print("[CAMERA] Visão: Parachoque / Asfalto (Bumper)")
+	# Resetar interpolação para evitar salto ao trocar de câmera
+	chase_camera._initialized = false
