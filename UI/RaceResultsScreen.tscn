@@ -1,0 +1,125 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://UI/RaceResultsScreen.gd" id="1_results"]
+
+[node name="RaceResultsScreen" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_results")
+
+[node name="DimBackground" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.04, 0.05, 0.08, 0.8)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -160.0
+offset_right = 220.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_top = 20.0
+offset_right = 150.0
+offset_bottom = 50.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "RESULTADO DA CORRIDA"
+horizontal_alignment = 1
+
+[node name="LblFinishPosition" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -180.0
+offset_top = 60.0
+offset_right = 180.0
+offset_bottom = 105.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 28
+text = "🏆 1º LUGAR — VITÓRIA!"
+horizontal_alignment = 1
+
+[node name="GridTimes" type="GridContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -20.0
+offset_right = 160.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="LblBestLap" type="Label" parent="Panel/GridTimes"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Melhor Volta:"
+
+[node name="LblBestLapVal" type="Label" parent="Panel/GridTimes"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.8, 1, 1)
+text = "01:28.45"
+
+[node name="LblTotalTime" type="Label" parent="Panel/GridTimes"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "Tempo Total:"
+
+[node name="LblTotalTimeVal" type="Label" parent="Panel/GridTimes"]
+layout_mode = 2
+text = "04:32.10"
+
+[node name="HBoxButtons" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -180.0
+offset_top = -60.0
+offset_right = 180.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 20
+
+[node name="BtnRetry" type="Button" parent="Panel/HBoxButtons"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "CORRER DE NOVO"
+
+[node name="BtnMenu" type="Button" parent="Panel/HBoxButtons"]
+custom_minimum_size = Vector2(160, 0)
+layout_mode = 2
+text = "MENU PRINCIPAL"
